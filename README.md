@@ -1,3 +1,4 @@
-# MeteoLab
-MeteoLab Version-0.3
-2022-6-13
+# MeteoMagician
+MeteoMagician Version-0.4
+the last version before Version-1.0
+2022-7.31
