@@ -1,4 +1,4 @@
 # MeteoMagician
-MeteoMagician Version-1.0
+MeteoMagician Version-1.1
 
-2023-3.10
+2023-7.13
