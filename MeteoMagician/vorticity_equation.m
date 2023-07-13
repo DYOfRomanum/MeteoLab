@@ -1,16 +1,17 @@
-function [H_adv,V_adv,Tilt,Dive]=vorticity_equation(U,V,W,vertical,dx,dy,lat)
+function [H_adv,V_adv,Tilt,Stre,F]=vorticity_equation(U,V,W,vertical,dx,dy,lat,Fx,Fy)
 %% 功能：进行涡度收支诊断
 %作者：DY
 %使用方法：
-%输入三维的风场、垂直坐标（气压或高度）、水平格点间距、纬度
+%输入U/V/W-三维的风场、Fx/Fy-摩擦耗散加速度（可以不输入）、
+%vertical-垂直坐标（气压或高度）、dx/dy-水平格点间距、lat-纬度
 %！！！！！！！！！！！！注意
-%输入气象要素信息必须为F(vertical_dim,y_dim,x_dim)
+%输入气象要素信息必须为A(vertical_dim,y_dim,x_dim)
 %如果不是请用matlab自带的permute函数调整维度
 %如果是在等经纬度网格上计算，请输入一维的纬度数组
 %如果是在非经纬度网格上计算，请用一个具体的纬度代替
 %如用45N代替，则lat变量输入45
 %输出信息为涡度方程右侧的
-%水平涡度平流项、垂直涡度平流项、扭转项、辐散项
+%水平涡度平流项、垂直涡度平流项、扭转项、辐散项、摩擦耗散项
 %%===================开始计算需要的基本量==============================%%
 %基本量初始化
 sz=size(U);
@@ -50,4 +51,11 @@ Cz=gradient_vert(Cr,vertical);
 H_adv=-(U.*Cx+V.*Cy);%水平涡度平流
 V_adv=-W.*Cz;%垂直涡度平流
 Tilt=Wy.*Uz-Wx.*Vz;%扭转项
-Dive=-(Cr+f).*(Ux+Vy);%辐散项
+Stre=-(Cr+f).*(Ux+Vy);%辐散项
+%摩擦耗散项
+if nargin==9
+    F = zeros(size(Fx));
+    for i=1:sv
+        F(i,:,:)=vorticity_2d(squeeze(Fx(i,:,:)),squeeze(Fy(i,:,:)),dx,dy);
+    end
+end
