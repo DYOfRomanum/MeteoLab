@@ -1,4 +1,4 @@
-function fout = grid2point(F,lat,lon,lat_p,lon_p,option)
+function fout = grid2point(F,lat,lon,lat_p,lon_p,option,method)
 %% 功能：将格点数据插值到站点上
 %输入：气象要素F、格点数据经纬度lat/lon、站点经纬度lat_p/lon_p
 %选项option：0-在二维水平格点上进行插值、1-在三维格点上进行插值
@@ -20,13 +20,13 @@ switch option(1)%判断是二维还是三维数据
         x_lon = reshape(Lon2d,sz(1)*sz(2),1);
         y_lat = reshape(Lat2d,sz(1)*sz(2),1);
         f_1d = reshape(F,sz(1)*sz(2),1);
-        fout = griddata(x_lon,y_lat,f_1d,lon_p,lat_p,'natural');
+        fout = griddata(x_lon,y_lat,f_1d,lon_p,lat_p,method);
     case 1%如果是三维，则先建立输出数组
         fout = zeros(sz(1),length(lat_p));
         x_lon = reshape(Lon2d,sz(3)*sz(2),1);
         y_lat = reshape(Lat2d,sz(3)*sz(2),1);
         for i=1:sz(1)%逐层插值
             f_1d = reshape(F(i,:,:),sz(2)*sz(3),1);
-            fout(i,:) = griddata(x_lon,y_lat,f_1d,lon_p,lat_p,'natural');
+            fout(i,:) = griddata(x_lon,y_lat,f_1d,lon_p,lat_p,method);
         end
 end
