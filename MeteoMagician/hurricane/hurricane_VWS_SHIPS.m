@@ -7,7 +7,7 @@ function [Us,Vs,S,D] = hurricane_VWS_SHIPS ...
 %%=============================开始计算==================================%%
 %选取半径R以内的格点
 [~,~,~,lat_n,lon_n] = hurricane_cart2pol ...
-    (U200,ctr_lat,ctr_lon,lat,lon,500,20,36,0);
+    (U200,ctr_lat,ctr_lon,lat,lon,500,20,36,0,'nearest');
 Lat2d = meshgrid(lat,lon)';
 Lon2d = meshgrid(lon,lat);
 vortex_ind = inpolygon(Lon2d,Lat2d,lon_n(end,:),lat_n(end,:));
@@ -17,6 +17,12 @@ C200 = vorticity_2d(U200,V200,dx,dy);
 C850 = vorticity_2d(U850,V850,dx,dy);
 D200 = divergence_2d(U200,V200,dx,dy);
 D850 = divergence_2d(U850,V850,dx,dy);
+%remove the nan value
+C200(isnan(C200)) = 0;
+C850(isnan(C850)) = 0;
+D200(isnan(D200)) = 0;
+D850(isnan(D850)) = 0;
+%start calculation
 Cd200 = zeros(size(U200));
 Cd850 = Cd200;
 Dd200 = zeros(size(U200));
@@ -38,10 +44,10 @@ Us200 = Us200(vortex_ind);
 Vs200 = Vs200(vortex_ind);
 Us850 = Us850(vortex_ind);
 Vs850 = Vs850(vortex_ind);
-Us200 = mean(Us200);
-Vs200 = mean(Vs200);
-Us850 = mean(Us850);
-Vs850 = mean(Vs850);
+Us200 = nanmean(Us200);
+Vs200 = nanmean(Vs200);
+Us850 = nanmean(Us850);
+Vs850 = nanmean(Vs850);
 %计算VWS
 Us = Us200-Us850;
 Vs = Vs200-Vs850;

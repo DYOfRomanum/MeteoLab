@@ -1,5 +1,5 @@
 function F = hurricane_pol2cart(F0,F_base,theta,r,ctr_lat,ctr_lon, ...
-    lat,lon,option)
+    lat,lon,option,method)
 %% 功能：以涡旋中心为原点，将极坐标插值到二维直角坐标
 %使用方法：
 %输入变量：F0：气象要素，theta：方位坐标，r：径向坐标
@@ -54,5 +54,5 @@ f_1d = reshape(F0,sz(1)*sz(2),1);
 %找出涡旋范围内的等经纬度格点
 vortex_ind = inpolygon(Lon2d,Lat2d,lon_n(end,:),lat_n(end,:));
 %插值到直角坐标系
-F_plane = griddata(x_lon,y_lat,f_1d,Lon2d,Lat2d,'nearest');
+F_plane = griddata(x_lon,y_lat,f_1d,Lon2d,Lat2d,method);
 F(vortex_ind) = F_plane(vortex_ind);

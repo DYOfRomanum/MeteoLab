@@ -9,9 +9,9 @@ Radius = 300;                                   %300km
 Nr = 150;                                       
 Ntheta = 120;
 [U0,~,~] = hurricane_cart2pol(U,ctr_lat,ctr_lon,lat,lon,Radius, ...
-    Nr,Ntheta,0);
+    Nr,Ntheta,0,'cubic');
 [V0,theta,r] = hurricane_cart2pol(V,ctr_lat,ctr_lon,lat,lon,Radius, ...
-    Nr,Ntheta,0);
+    Nr,Ntheta,0,'cubic');
 %计算切向风，并进行轴平均
 [v_theta,~] = hurricane_uv(U0,V0,theta,r);
 VR = mean(v_theta,2);

@@ -1,5 +1,5 @@
 function [F,theta,r,lat_n,lon_n] = hurricane_cart2pol ...
-    (F0,ctr_lat,ctr_lon,lat,lon,Radius,Nr,Ntheta,option)
+    (F0,ctr_lat,ctr_lon,lat,lon,Radius,Nr,Ntheta,option,method)
 %% 功能：以涡旋中心为原点，将二维直角坐标插值到极坐标
 %使用方法：
 %输入变量：F0：气象要素，ctr_lat,ctr_lon：涡旋中心经纬度
@@ -67,4 +67,4 @@ x_lon = reshape(Lon2d,sz(1)*sz(2),1);
 y_lat = reshape(Lat2d,sz(1)*sz(2),1);
 f_1d = reshape(F0,sz(1)*sz(2),1);
 %插值到极坐标系
-F = griddata(x_lon,y_lat,f_1d,lon_n,lat_n,'nearest');
+F = griddata(x_lon,y_lat,f_1d,lon_n,lat_n,method);

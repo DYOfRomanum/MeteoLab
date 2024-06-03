@@ -13,7 +13,7 @@ Nr = 100;
 Ntheta = 120;
 P(P<0) = 0;
 [P0,theta,r] = hurricane_cart2pol(P,ctr_lat,ctr_lon,lat,lon,RMW, ...
-    Nr,Ntheta,0);
+    Nr,Ntheta,0,'cubic');
 %%===========================计算区域积分降水率===========================%%
 PR = zeros(size(P0));
 for i=1:length(r)

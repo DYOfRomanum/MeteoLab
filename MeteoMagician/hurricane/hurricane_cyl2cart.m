@@ -1,5 +1,5 @@
 function F = hurricane_cyl2cart(F0,F_base,vertical,theta,r,ctr_lat, ...
-    ctr_lon,lat,lon,option)
+    ctr_lon,lat,lon,option,method)
 %% 功能：以涡旋中心为原点，将柱坐标插值到三维直角坐标
 %使用方法：
 %输入变量：F0：气象要素，F_base：等经纬度网格上的数据
@@ -57,7 +57,7 @@ vortex_ind = inpolygon(Lon2d,Lat2d,lon_n(end,:),lat_n(end,:));
 for p=1:nz
     f_1d = reshape(F0(p,:,:),sz(1)*sz(2),1);
     %插值到直角坐标系
-    F_plane = griddata(x_lon,y_lat,f_1d,Lon2d,Lat2d,'nearest');
+    F_plane = griddata(x_lon,y_lat,f_1d,Lon2d,Lat2d,method);
     F(p,vortex_ind) = F_plane(vortex_ind);
     clear F_plane
 end

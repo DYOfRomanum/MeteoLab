@@ -1,5 +1,5 @@
 function [F,theta,r,lat_n,lon_n] = hurricane_cart2cyl ...
-    (F0,ctr_lat,ctr_lon,lat,lon,vertical,Radius,Nr,Ntheta,option)
+    (F0,ctr_lat,ctr_lon,lat,lon,vertical,Radius,Nr,Ntheta,option,method)
 %% 功能：以涡旋中心为原点，将三维直角坐标插值到柱坐标
 %使用方法：
 %输入变量：F0：气象要素，ctr_lat,ctr_lon：涡旋中心经纬度
@@ -71,5 +71,5 @@ y_lat = reshape(Lat2d,sz(1)*sz(2),1);
 for p=1:nz
     f_1d = reshape(F0(p,:,:),sz(1)*sz(2),1);
     %插值到极坐标系
-    F(p,:,:) = griddata(x_lon,y_lat,f_1d,lon_n,lat_n,'nearest');
+    F(p,:,:) = griddata(x_lon,y_lat,f_1d,lon_n,lat_n,method);
 end
